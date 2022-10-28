@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './components/Home';
 import Setting from './components/Setting';
 import Caculator from './components/Caculator';
-import Contact from './components/Contact';
+import Caculator2 from './components/Caculator2';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +17,7 @@ export default function App() {
       <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: () => <Text>😏</Text>}} />
       <Tab.Screen name="Settings" component={Setting} options={{ tabBarIcon: () => <Text>🤬</Text>}} />
       <Tab.Screen name="Caculator" component={Caculator} options={{ tabBarIcon: () => <Text>🤯</Text>}} />
-      <Tab.Screen name="Contact" component={Contact} options={{ tabBarIcon: () => <Text>🤪</Text>}} />
+      <Tab.Screen name="Caculator2" component={Caculator2} options={{ tabBarIcon: () => <Text>🤪</Text>}} />
     </Tab.Navigator>
     </NavigationContainer>
   );
