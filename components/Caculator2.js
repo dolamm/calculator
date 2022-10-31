@@ -16,6 +16,7 @@ export default class Caculator2 extends React.Component {
             result : '',
             history : [],
             searchResult : [],
+            keyword : ''
         }
     }
 
@@ -35,12 +36,31 @@ export default class Caculator2 extends React.Component {
     }
 
     search(keyword) {
+        this.setState({keyword : keyword});
         let searchResult = this.state.history.filter(item => item.includes(keyword));
         this.setState({searchResult : searchResult});
     }
 
+    // Search highlight text
+    renderSearchItem = ({ item }) => {
+        let keyword = this.state.keyword;
+        let index = item.indexOf(keyword);
+        let before = item.substring(0, index);
+        let after = item.substring(index + keyword.length);
+        return (
+            <View style={styles.item}>
+                <Text>
+                    <Text style={styles.title}>{before}</Text>
+                    <Text style={styles.highlight}>{keyword}</Text>
+                    <Text style={styles.title}>{after}</Text>
+                </Text>
+            </View>
+        );
+    };
+
     clearStack() {
         this.setState({searchResult : []});
+        this.setState({keyword : ''});
     }
 
     renderItem = ({ item }) => (
@@ -74,7 +94,7 @@ export default class Caculator2 extends React.Component {
                 <SafeAreaView style={styles.container}>
                     <FlatList
                         data={this.state.searchResult}
-                        renderItem={this.renderItem}
+                        renderItem={this.renderSearchItem}
                         keyExtractor={item => item}
                     />
                 </SafeAreaView>
@@ -126,5 +146,9 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         marginHorizontal: 16,
         borderRadius: 5,
+    },
+    highlight: {
+        fontWeight: 'bold',
+        color: 'red',
     },
 });
