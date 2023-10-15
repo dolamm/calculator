@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Setting from './components/Setting';
 import Caculator from './components/Caculator';
 import Caculator2 from './components/Caculator2';
+import Test from './components/SocialMedia/Test';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
       <Tab.Screen name="Settings" component={Setting} options={{ tabBarIcon: () => <Text>🤬</Text>}} />
       <Tab.Screen name="Caculator" component={Caculator} options={{ tabBarIcon: () => <Text>🤯</Text>}} />
       <Tab.Screen name="Caculator2" component={Caculator2} options={{ tabBarIcon: () => <Text>🤪</Text>}} />
+      <Tab.Screen name="Social Media" component={Test} options={{ tabBarIcon: () => <Text>aa</Text>}}/>
     </Tab.Navigator>
     </NavigationContainer>
   );

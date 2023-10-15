@@ -1,89 +1,100 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, Alert } from 'react-native';
+// Capture Digital Signature in React Native App for Android and iOS
+// https://aboutreact.com/react-native-capture-signature/
 
-export default class Caculator extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            number1 : '',
-            number2 : '',
-            operator : '',
-            result : ''
-        }
-    }
 
-    clear(){
-        this.setState({
-            number1 : '',
-            number2 : '',
-            operator : '',
-            result : ''
-    });
-    }
+import React, {createRef} from 'react';
 
-    caculate(){
-        let number1 = parseFloat(this.state.number1);
-        let number2 = parseFloat(this.state.number2);
-        let operator = this.state.operator;
-        let result = 0;
-        if (operator == '+') {
-            result = number1 + number2;
-        } else if (operator == '-') {
-            result = number1 - number2;
-        } else if (operator == '*') {
-            result = number1 * number2;
-        } else if (operator == '/') {
-            result = number1 / number2;
-        }
-        this.setState({result : result});
-    }
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+} from 'react-native';
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.row}>
-                    <TextInput style={styles.textInput} onChangeText={(number1) => this.setState({number1})} value={this.state.number1} keyboardType='numeric'/>
-                    <TextInput style={styles.textInput} onChangeText={(operator) => this.setState({operator})} value={this.state.operator} maxLength={1}/>
-                    <TextInput style={styles.textInput} onChangeText={(number2) => this.setState({number2})} value={this.state.number2} keyboardType='numeric'/>
-                    <Button title="=" onPress={() => this.caculate()}/>
-                    <Text style={styles.textResult}>{this.state.result}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Button title="Clear" onPress={() => this.clear()}/>
-                </View>
-            </View>
-        );
-    }
-}
+import SignatureCapture from 'react-native-signature-capture';
+
+const App = () => {
+  const sign = createRef();
+
+  const saveSign = () => {
+    sign.current.saveImage();
+  };
+
+  const resetSign = () => {
+    sign.current.resetImage();
+  };
+
+  const _onSaveEvent = (result) => {
+    //result.encoded - for the base64 encoded png
+    //result.pathName - for the file path name
+    alert('Signature Captured Successfully');
+    console.log(result.encoded);
+  };
+
+  const _onDragEvent = () => {
+    // This callback will be called when the user enters signature
+    console.log('dragged');
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.titleStyle}>
+          Capture Digital Signature in React Native App
+        </Text>
+        <SignatureCapture
+          style={styles.signature}
+          ref={sign}
+          onSaveEvent={_onSaveEvent}
+          onDragEvent={_onDragEvent}
+          showNativeButtons={false}
+          showTitleLabel={false}
+          viewMode={'portrait'}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <TouchableHighlight
+            style={styles.buttonStyle}
+            onPress={() => {
+              saveSign();
+            }}>
+            <Text>Save</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.buttonStyle}
+            onPress={() => {
+              resetSign();
+            }}>
+            <Text>Reset</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+export default App;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textInput: {
-        width: 50,
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 10,
-        textAlign: 'center',
-        fontSize: 20,
-    },
-    textResult: {
-        width: 50,
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 10,
-        textAlign: 'center',
-        fontSize: 20,
-    }
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  titleStyle: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  signature: {
+    flex: 1,
+    borderColor: '#000033',
+    borderWidth: 1,
+  },
+  buttonStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: '#eeeeee',
+    margin: 10,
+  },
 });

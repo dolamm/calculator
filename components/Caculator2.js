@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Text, View, StyleSheet, Button, TextInput, FlatList, SafeAreaView } from 'react-native';
+import { AsyncStorageStatic } from 'react-native';
 
 const Item = ({ title }) => (
     <View style={styles.item}>
